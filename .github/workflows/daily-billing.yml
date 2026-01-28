@@ -1,0 +1,18 @@
+name: Ubikapp Daily Billing
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # todos los días 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  run-billing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call recurring charge
+        run: |
+          curl -X POST https://erynbpcidkdtejenhazf.supabase.co/functions/v1/billing-mp-recurring-charge
+
+      - name: Call subscription enforcer
+        run: |
+          curl -X POST https://erynbpcidkdtejenhazf.supabase.co/functions/v1/billing-subscription-enforcer
