@@ -2,7 +2,7 @@ name: Ubikapp Daily Billing
 
 on:
   schedule:
-    - cron: "0 9 * * *" # todos los días 09:00 UTC
+    - cron: "0 9 * * *"
   workflow_dispatch:
 
 jobs:
@@ -11,8 +11,12 @@ jobs:
     steps:
       - name: Call recurring charge
         run: |
-          curl -X POST https://erynbpcidkdtejenhazf.supabase.co/functions/v1/billing-mp-recurring-charge
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            https://erynbpcidkdtejenhazf.supabase.co/functions/v1/billing-mp-recurring-charge
 
       - name: Call subscription enforcer
         run: |
-          curl -X POST https://erynbpcidkdtejenhazf.supabase.co/functions/v1/billing-subscription-enforcer
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            https://erynbpcidkdtejenhazf.supabase.co/functions/v1/billing-subscription-enforcer
